@@ -19,8 +19,8 @@ import lombok.Data;
 			@UniqueConstraint(columnNames = "email") 
 		})
 public class User {
+
 	@Id
-	@Column // To be remove ?
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

@@ -32,6 +32,10 @@ public class Task {
     @NotNull(message="{NotNull.Task.assigned}")
     private String assigned;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "comment_id")
+	private Set<Comment> comments = new HashSet<>();
+
     @Column(name = "points")
     @NotNull(message="{NotNull.Task.points}")
     private String points;
