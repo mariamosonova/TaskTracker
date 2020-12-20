@@ -35,8 +35,8 @@ import org.junit.jupiter.api.Test;
 public class TokenAuthenticationServiceTest {
 
 
-    private String adminTokenValue = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvZG1lbiIsImlhdCI6MTYwODMzODc5OCwiZXhwIjoxNjA4NDI1MTk4fQ.5SUlCMdX7udblp2jQb8gfOmbtTYAqRGXir_J-brksFrpuaLNva5u9iDxcxE_PcODOZ1z1CQzCsG9AV4qsfeVnA";
-    private String userTokenValue = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvZG1lbiIsImlhdCI6MTYwODMyNTA1MywiZXhwIjoxNjA4NDExNDUzfQ.qHIm2y6LmRgTeOaWB8aLapuQ9PZLLUCoHnP-HuH1bVaeCehb4-1RCtqc7pyILgxldyTqsXe5B44m4JwgCR851A";
+    private String adminTokenValue = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYwODQ2NzAxNCwiZXhwIjoxNjA4NTUzNDE0fQ.7B1dLJC8-dS-_sNJ2lr3sFuTzRnJxwldLSzl5-hX87b_-Frg6achNUaVwRn6rmdCS9CzuYEI9LqsE1m_N_3fAw";
+    private String userTokenValue = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvZG1lbiIsImlhdCI6MTYwODQ2NzA5OCwiZXhwIjoxNjA4NTUzNDk4fQ.ST9IqgZv3nSxsuZM0IXonIBnxkIudAf3_T1V9us32nRozt9bMqHOVCO6A7dW7FpNU2B8dXt4uxeQ6oXLhN5_hA";
 
     @Value("${server.port}")
     private int portNumber;
@@ -107,13 +107,15 @@ public class TokenAuthenticationServiceTest {
         String lastname = "Last";
         String email = "aaabbb@ddd.ccc";
         String role = "user";
+        String baseSalary = "20000";
     
         String newUser = "{\"username\":" + "\"" + newusername + "\"," + 
                        "\"firstname\":" + "\"" + firstname + "\"," + 
                       " \"lastname\":" + "\""+  lastname + "\"," + 
                       " \"email\":" + "\""+  email + "\"," + 
                       " \"password\":" + "\""+  newpassword + "\"," + 
-                      " \"role\":" + "[\""+  role + "\"]" + "}";
+                      " \"role\":" + "[\""+  role + "\"] ," + 
+                      " \"baseSalary\":" + "\"" + baseSalary + "\"}";
     
         mvc.perform(MockMvcRequestBuilders.post("/api/user_update").contentType("application/json").content(newUser).header("Authorization", "Bearer " + userTokenValue)).andExpect(status().isForbidden());
 
@@ -126,13 +128,16 @@ public class TokenAuthenticationServiceTest {
         String lastname = "Last";
         String email = "aaabbb@ddd.ccc";
         String role = "user";
+        String baseSalary = "20000";
     
         String body = "{\"username\":" + "\"" + username + "\"," + 
                         "\"firstname\":" + "\"" + firstname + "\"," + 
                         " \"lastname\":" + "\""+  lastname + "\"," + 
                         " \"email\":" + "\""+  email + "\"," + 
                         " \"password\":" + "\""+  password + "\"," + 
-                        " \"role\":" + "[\""+  role + "\"]" + "}";
+                        " \"role\":" + "[\""+  role + "\"]," +
+                        " \"baseSalary\":" + "\"" + baseSalary + "\"}";
+
 
     
         mvc.perform(MockMvcRequestBuilders.post("/user_update").contentType("application/json").content(body).header("Authorization", "Bearer " + adminTokenValue)).andExpect(status().isForbidden());
