@@ -1,6 +1,15 @@
 package com.tasktracker.application;
 
+import com.tasktracker.application.models.User;
+import com.tasktracker.application.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,11 +27,11 @@ class UserRepositoryTest {
                 "testFirstName",
                 "testLastName",
                 "testEmail",
-                "testPassword");
+                "testPassword",
+                "100000");
         userRepository.save(user);
-        List<?> queryResult = userRepository.findByUsername("testLogin");
-        assertFalse(queryResult.isEmpty());
-        assertNotNull(queryResult.get(0));
+        Optional<?> queryResult = userRepository.findByUsername("testLogin");
+        assertFalse(!queryResult.isPresent());
     }
 
     @Test
@@ -31,7 +40,8 @@ class UserRepositoryTest {
                 "testFirstName",
                 "testLastName",
                 "testEmail",
-                "testPassword");
+                "testPassword",
+                "100000");
         userRepository.save(user);
         boolean isExist = userRepository.existsByEmail("testEmail");
         assertEquals(true, isExist);
@@ -44,7 +54,8 @@ class UserRepositoryTest {
                 "testFirstName",
                 "testLastName",
                 "testEmail",
-                "testPassword");
+                "testPassword",
+                "100000");
         userRepository.save(user);
         boolean isExist = userRepository.existsByUsername("testLogin");
         assertEquals(true, isExist);
