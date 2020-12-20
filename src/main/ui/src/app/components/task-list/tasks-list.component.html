@@ -1,76 +1,129 @@
-<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by title"
-        [(ngModel)]="title"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          (click)="searchTitle()"
+<div class="tasks-list">
+
+  <button
+    *ngIf="!isTaskEditMode && (showModeratorBoard || showAdminBoard)"
+    class="btn btn-outline-secondary add-task-button"
+    type="button"
+    (click)="isTaskEditMode = true">
+    Add task
+  </button>
+
+  <div *ngIf="!isTaskEditMode" class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by title"
+          [(ngModel)]="title"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchTitle()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Tasks List</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let task of tasks; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveTask(task, i)"
         >
-          Search
+          {{ task.taskTitle }}
+        </li>
+      </ul>
+
+      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTasks()">
+        Remove All
+      </button>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="currentTask">
+        <h4>Task</h4>
+        <div>
+          <label><strong>Title:</strong></label> {{ currentTask.taskTitle }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label>
+          {{ currentTask.taskDescription }}
+        </div>
+        <div>
+          <label><strong>startDate:</strong></label>
+          {{ currentTask.startDate | date: 'dd/MM/yyyy'}}
+        </div>
+        <div>
+          <label><strong>ETA:</strong></label>
+          {{ currentTask.eta | date: 'dd/MM/yyyy'}}
+        </div>
+        <div>
+          <label><strong>Assigned:</strong></label>
+          {{ currentTask.assigned }}
+        </div>
+        <div>
+          <label><strong>Points:</strong></label>
+          {{ currentTask.points }}
+        </div>
+        
+        <div>
+          <label><strong>Status:</strong></label>
+          {{ currentTask.resolved ? "Resolved" : "Pending" }}
+        </div>
+
+        <a class="badge badge-warning" routerLink="/tasks/{{ currentTask.id }}">
+          Edit
+        </a>
+
+        <div class="task-comments-dialog">
+          <div class="form-group">
+            <textarea
+              class="form-control task-creation-form"
+              id="taskComment"
+              required
+              [(ngModel)]="form.comment"
+              name="taskComment"
+            ></textarea>
+          </div>
+        </div>
+    
+        <button class="btn btn-outline-secondary"
+                type="button"
+                (click)="addComment()">
+        Add Comment
         </button>
+
+        <div class="tasks-list"
+             *ngIf="currentTask && currentTask.comments?.length">
+          <div *ngFor='let comment of currentTask.comments'
+                class="comment-card">
+            <div class="comment-row">
+              <div> Created by: {{comment.userId}}</div>
+              <div> Created when: {{comment.date | date: 'dd/MM/yyyy, h:mm a'}}</div>
+            </div>
+            <div class="comment-content">
+              {{comment.comment}}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="!currentTask">
+        <br />
+        <p>Please click on a Task...</p>
       </div>
     </div>
   </div>
-  <div class="col-md-6">
-    <h4>Tasks List</h4>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let task of tasks; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setActiveTask(task, i)"
-      >
-        {{ task.taskTitle }}
-      </li>
-    </ul>
 
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTasks()">
-      Remove All
-    </button>
+  <div *ngIf="isTaskEditMode">
+    <app-add-task (onTaskAdd)="onTaskCreate()"></app-add-task>
   </div>
-  <div class="col-md-6">
-    <div *ngIf="currentTask">
-      <h4>Task</h4>
-      <div>
-        <label><strong>Title:</strong></label> {{ currentTask.taskTitle }}
-      </div>
-      <div>
-        <label><strong>Description:</strong></label>
-        {{ currentTask.taskDescription }}
-      </div>
-      <div>
-        <label><strong>ETA:</strong></label>
-        {{ currentTask.eta | date: 'dd/MM/yyyy'}}
-      </div>
-      <div>
-        <label><strong>Assigned:</strong></label>
-        {{ currentTask.assigned }}
-      </div>
-      <div>
-        <label><strong>Points:</strong></label>
-        {{ currentTask.points }}
-      </div>
-      
-      <div>
-        <label><strong>Status:</strong></label>
-        {{ currentTask.resolved ? "Resolved" : "Pending" }}
-      </div>
 
-      <a class="badge badge-warning" routerLink="/tasks/{{ currentTask.id }}">
-        Edit
-      </a>
-    </div>
-
-    <div *ngIf="!currentTask">
-      <br />
-      <p>Please click on a Task...</p>
-    </div>
-  </div>
 </div>

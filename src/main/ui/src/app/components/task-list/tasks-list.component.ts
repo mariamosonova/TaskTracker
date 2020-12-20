@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from 'src/app/_services/token-storage.service';
 import { TaskService } from '../../_services/task.service';
 
 @Component({
@@ -13,10 +14,28 @@ export class TasksListComponent implements OnInit {
   currentIndex = -1;
   title = '';
 
-  constructor(private taskService: TaskService) { }
+  isTaskEditMode = false;
+
+  showAdminBoard = false;
+  showModeratorBoard = false;
+
+  form = {
+    comment: ''
+  }
+  user;
+  comments;
+
+  constructor(private taskService: TaskService,
+              private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     this.retrieveTasks();
+
+    if (!!this.tokenStorageService.getToken()) {
+      this.user = this.tokenStorageService.getUser();
+      this.showAdminBoard = this.user.roles.includes('ROLE_ADMIN');
+      this.showModeratorBoard = this.user.roles.includes('ROLE_MODERATOR');
+    }
   }
 
   retrieveTasks(): void {
@@ -38,8 +57,18 @@ export class TasksListComponent implements OnInit {
   }
 
   setActiveTask(task, index): void {
-    this.currentTask = task;
-    this.currentIndex = index;
+    this.getTask(task.id, index);
+  }
+
+  getTask(id, index?): void {
+    this.taskService.get(id).subscribe( newTask => {
+      this.currentTask = newTask;
+      this.currentTask.comments = this.currentTask.comments.map( comment => {
+        comment.date = new Date(comment.date);
+        return comment;
+      });
+      this.currentIndex = index ? index : this.currentIndex;
+    });
   }
 
   removeAllTasks(): void {
@@ -64,5 +93,24 @@ export class TasksListComponent implements OnInit {
         error => {
           console.log(error);
         });
+  }
+
+  onTaskCreate(): void {
+    this.retrieveTasks();
+    this.isTaskEditMode = false;
+  }
+
+  addComment(): void {
+    const comment = {
+      taskId: this.currentTask.id.toString(),
+      userId: this.user.id.toString(),
+      comment: this.form.comment.toString(),
+      date: new Date().toString()
+    };
+
+    this.taskService.addTaskComment(comment).subscribe(() => {
+      this.form.comment = '';
+      this.getTask(this.currentTask.id);
+    });
   }
 }

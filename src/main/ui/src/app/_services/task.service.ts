@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const baseUrl = 'http://localhost:8080/api/tasks';
+const commentUrl = 'http://localhost:8080/api';
 
 @Injectable({
   providedIn: 'root'
@@ -38,4 +39,9 @@ export class TaskService {
   findByTitle(taskTitle): Observable<any> {
     return this.http.get(`${baseUrl}?taskTitle=${taskTitle}`);
   }
+
+  addTaskComment(comment): Observable<any> {
+    return this.http.post(`${commentUrl}/add_comment`, comment);
+  }
+
 }

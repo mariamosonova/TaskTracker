@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/models/user-roles';
 import { UserService } from 'src/app/_services/user.service';
 import { TaskService } from '../../_services/task.service';
@@ -12,6 +12,7 @@ export class AddTaskComponent implements OnInit {
   task = {
     taskTitle: '',
     taskDescription: '',
+    startDate: '',
     eta: '',
     assigned: '',
     points: '',
@@ -19,6 +20,8 @@ export class AddTaskComponent implements OnInit {
   };
   submitted = false;
   users: User[];
+
+  @Output() onTaskAdd = new EventEmitter();
 
   constructor(private taskService: TaskService,
               private userService: UserService) { }
@@ -31,6 +34,7 @@ export class AddTaskComponent implements OnInit {
     const data = {
       taskTitle: this.task.taskTitle,
       taskDescription: this.task.taskDescription,
+      startDate: this.task.startDate,
       eta: this.task.eta,
       assigned: this.task.assigned,
       points: this.task.points
@@ -40,6 +44,7 @@ export class AddTaskComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
+          this.onTaskAdd.emit();
           this.submitted = true;
         },
         error => {
@@ -58,6 +63,7 @@ export class AddTaskComponent implements OnInit {
     this.task = {
       taskTitle: '',
       taskDescription: '',
+      startDate: '',
       eta: '',
       assigned: '',
       points: '',

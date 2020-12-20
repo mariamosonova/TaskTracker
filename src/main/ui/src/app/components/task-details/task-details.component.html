@@ -23,6 +23,15 @@
         />
       </div>
       <div class="form-group">
+        <label for="startDate">Start date</label>
+          <input class="form-control" 
+                 id="startDate" #drp="bsDatepicker" 
+                 bsDatepicker 
+                 [(ngModel)]="currentTask.startDate"
+                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                 name="startDate">
+      </div>
+      <div class="form-group">
         <label for="eta">ETA</label>
           <input class="form-control" 
                  id="eta" #drp="bsDatepicker" 

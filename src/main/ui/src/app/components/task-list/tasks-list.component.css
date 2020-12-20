@@ -1,0 +1,41 @@
+.tasks-list {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.add-task-button {
+    margin-bottom: 16px;
+}
+
+.task-cretion-form {
+    resize: none;
+}
+
+.task-comments-dialog {
+    margin-top: 32px;
+}
+
+.comment-card {
+    width: 100%;
+    border: 1px solid #D5DCE3;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 16px;
+    margin-top: 4px;
+    position: relative;
+}
+
+.comment-card .comment-row div {
+    margin-right: 16px;
+    font-size: 12px;
+    word-wrap: none;
+}
+
+.comment-row {
+    display: flex;
+    flex-wrap: nowrap
+}
+
+.comment-content {
+    margin-top: 8px;
+}

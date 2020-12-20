@@ -32,6 +32,7 @@ export class TaskDetailsComponent implements OnInit {
         data => {
           this.currentTask = data;
           this.currentTask.eta = new Date(this.currentTask.eta);
+          this.currentTask.startDate = new Date(this.currentTask.startDate);
           console.log(data);
         },
         error => {
@@ -50,6 +51,7 @@ export class TaskDetailsComponent implements OnInit {
       taskTitle: this.currentTask.taskTitle,
       taskDescription: this.currentTask.taskDescription,
       eta: this.currentTask.eta,
+      startDate: this.currentTask.startDate,
       assigned: this.currentTask.assigned,
       points: this.currentTask.points,
       resolved: status
@@ -60,6 +62,8 @@ export class TaskDetailsComponent implements OnInit {
         response => {
           this.currentTask.published = status;
           this.currentTask = response;
+          this.currentTask.eta = new Date(this.currentTask.eta);
+          this.currentTask.startDate = new Date(this.currentTask.startDate);
           console.log(response);
         },
         error => {

@@ -37,7 +37,7 @@ export class BoardUserComponent implements OnInit {
 
   getAllMyTasks() {
     this.appService.getMyTasks().pipe(takeUntil(this.destroy$)).subscribe((tasks: any[]) => {
-		this.taskCount = tasks.length;
+		this.taskCount = tasks?.length ? tasks.length : 0;
         this.tasks = tasks;
     });
   }

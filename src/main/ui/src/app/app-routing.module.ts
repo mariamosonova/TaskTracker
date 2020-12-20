@@ -7,10 +7,8 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { TasksListComponent } from './components/task-list/tasks-list.component';
 import { TaskDetailsComponent } from './components/task-details/task-details.component';
-import { AddTaskComponent } from './components/add-task/add-task.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
@@ -20,10 +18,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
-  { path: 'admin', component: BoardAdminComponent },
   { path: 'tasks', component: TasksListComponent },
   { path: 'tasks/:id', component: TaskDetailsComponent },
-  { path: 'add', component: AddTaskComponent },
   { path: 'users', component: UsersComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];

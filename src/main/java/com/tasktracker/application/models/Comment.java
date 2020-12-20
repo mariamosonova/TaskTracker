@@ -1,91 +1,82 @@
 package com.tasktracker.application.models;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
-
+import javax.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
-@Table(name = "Comment")
+@Table(name = "comments")
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+  @Id
+  @Column // To be remove ?
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long comment_id;
 
-    @Column(name = "text")
-    @NotNull(message="{NotNull.Comment.text}")
-    private String text;
+  @NotBlank
+  @Column(name = "userId")
+  private String userId;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    @NotNull(message="{NotNull.Comment.created_at}")
-    private OffsetDateTime createdAt;
+  @NotBlank
+  @Column(name = "taskId")
+  private String taskId;
 
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    @NotNull(message="{NotNull.Comment.updated_at}")
-    private OffsetDateTime updatedAt;
+  @NotBlank
+  @Column(name = "comment")
+  private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task task;
+  @NotBlank
+  @Column(name = "date")
+  private String date;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+  public Comment() {}
 
-    public Comment() {
-    }
+  public Comment(String userId, String taskId, String comment, String date) {
+    this.userId = userId;
+    this.taskId = taskId;
+    this.comment = comment;
+    this.date = date;
+  }
 
-    public Comment(String text, User user, Task task) {
-        this.text = text;
-        this.user = user;
-        this.task = task;
-        this.createdAt = OffsetDateTime.now();
-        this.updatedAt = OffsetDateTime.now()
-    }
+  public Long getId() {
+    return comment_id;
+  }
 
-    public String getText() {
-        return text;
-    }
+  public String getTaskId() {
+    return taskId;
+  }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+  public void setTaskId(String taskId) {
+    this.taskId = taskId;
+  }
 
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public String getUserId() {
+    return userId;
+  }
 
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    public void setUpdatedAt(OffsetDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    public Task getTask() {
-        return task;
-    }
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
 
-    public void setTask(Task task) {
-        this.task = task;
-    }
+  public String getDate() {
+    return date;
+  }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment [comment_id=" + comment_id + ", text=" + text + ", createdAt=" + createdAt.toString() + ", user_id=" +  user.getId() "]";
-    }
+  public void setDate(String date) {
+    this.date = date;
+  }
 }

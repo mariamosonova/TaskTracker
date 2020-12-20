@@ -1,6 +1,7 @@
 package com.tasktracker.application.security.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,10 @@ public class UserService {
 
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUser(Long Id) {
+        return userRepository.findById(Id).get();
     }
 
     public User updateUser(User user) {

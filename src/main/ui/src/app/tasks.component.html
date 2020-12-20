@@ -6,6 +6,7 @@
         <th>Task Id</th>
         <th>TaskName</th>
         <th>TaskDescription</th>
+        <th>startDate</th>
         <th>ETA</th>
         <th>Assigned</th>
         <th>Points</th>
@@ -16,7 +17,8 @@
         <td>{{task.id}}</td>
         <td>{{task.taskTitle}}</td>
         <td>{{task.taskDescription}}</td>
-        <td>{{task.eta}}</td>
+        <td>{{task.startDate | date: 'dd/MM/yyyy'}}</td>
+        <td>{{task.eta | date: 'dd/MM/yyyy'}}</td>
         <td>{{task.assigned}}</td>
         <td>{{task.points}}</td>
       </tr>

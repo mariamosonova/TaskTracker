@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.tasktracker.application.models.Task;
+import com.tasktracker.application.models.Comment;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Comment> findByTaskId(long taskId);
-    List<Comment> findById(long Id);
+public interface CommentRepository extends JpaRepository<Comment, String> {
+  List<Comment> findByTaskId(String taskId);
 
 }
+
