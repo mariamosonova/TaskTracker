@@ -1,4 +1,4 @@
-package com.tasktracker.application.models;
+package com.tasktracker.application;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

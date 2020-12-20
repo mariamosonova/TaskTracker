@@ -1,4 +1,4 @@
-package com.tasktracker.application.models;
+package com.tasktracker.application;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,8 @@ class UserTest {
                 "testFirstName",
                 "testLastName",
                 "testEmail",
-                "testPassword");
+                "testPassword",
+                "100000");
     }
 
     @AfterEach
@@ -103,5 +104,16 @@ class UserTest {
         roles.add(new Role(ERole.ROLE_USER));
         user.setRoles(roles);
         assertEquals(roles, user.getRoles());
+    }
+
+    @Test
+    void getBaseSalary() {
+        assertEquals("100000", user.getBaseSalary());
+    }
+
+    @Test
+    void setBaseSalary() {
+        user.setBaseSalary("500000");
+        assertEquals("500000", user.getBaseSalary());
     }
 }
