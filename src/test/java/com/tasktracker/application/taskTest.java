@@ -1,5 +1,8 @@
 package com.tasktracker.application;
 
+import com.tasktracker.application.models.Comment;
+import com.tasktracker.application.models.Role;
+import com.tasktracker.application.models.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
