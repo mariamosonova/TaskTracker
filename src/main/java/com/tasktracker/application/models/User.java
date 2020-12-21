@@ -15,6 +15,7 @@ import lombok.Data;
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email") })
 public class User {
+
     @Id
     @Column // To be remove ?
     @GeneratedValue(strategy = GenerationType.IDENTITY)

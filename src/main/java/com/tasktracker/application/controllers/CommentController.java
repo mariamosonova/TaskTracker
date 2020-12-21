@@ -61,7 +61,7 @@ public class CommentController {
       log.info("CommentController:  add comment");
       return new ResponseEntity<>(new MessageResponse("Comment has been added successfully!"), HttpStatus.OK);
     } catch (Exception e) {
-      
+
       return new ResponseEntity<>(new MessageResponse("Server error!"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
