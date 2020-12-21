@@ -11,8 +11,9 @@ public class JwtResponse {
 	private String lastname;
 	private String email;
 	private List<String> roles;
+	private String baseSalary;
 
-	public JwtResponse(String accessToken, Long id, String username, String firstname, String lastname, String email, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String username, String firstname, String lastname, String email, List<String> roles, String baseSalary) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
@@ -20,6 +21,7 @@ public class JwtResponse {
 		this.lastname = lastname;
 		this.email = email;
 		this.roles = roles;
+		this.baseSalary = baseSalary;
 	}
 
 	public String getAccessToken() {
@@ -81,4 +83,12 @@ public class JwtResponse {
 	public List<String> getRoles() {
 		return roles;
 	}
+
+    public String getBaseSalary() {
+        return baseSalary;
+    }
+
+    public void setBaseSalary(String baseSalary) {
+        this.baseSalary = baseSalary;
+    }
 }
