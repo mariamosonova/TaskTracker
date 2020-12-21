@@ -29,7 +29,9 @@ class TaskRepositoryTest {
                 "testUser",
                 "5",
                 false,
-                "New");
+                "testStatus"
+                );
+
         taskRepository.save(task);
         List<?> queryResult = taskRepository.findByResolved(false);
         assertFalse(queryResult.isEmpty());
@@ -45,7 +47,8 @@ class TaskRepositoryTest {
                 "testUser",
                 "5",
                 false,
-                "New");
+                "testStatus"
+                );
         taskRepository.save(task);
         List<?> queryResult = taskRepository.findByTaskTitleContaining("test Title");
         assertFalse(queryResult.isEmpty());
@@ -61,7 +64,9 @@ class TaskRepositoryTest {
                 "testUser",
                 "5",
                 false,
-                "New");
+                "testStatus"
+                );
+
         taskRepository.save(task);
         List<?> queryResult = taskRepository.findByAssigned("testUser");
         assertFalse(queryResult.isEmpty());

@@ -26,12 +26,14 @@ class UserRepositoryTest {
         User user = new User ("testLogin",
                 "testFirstName",
                 "testLastName",
-                "testEmail",
+                "testEmail@ya.ru",
                 "testPassword",
                 "100000");
         userRepository.save(user);
         Optional<?> queryResult = userRepository.findByUsername("testLogin");
         assertFalse(!queryResult.isPresent());
+        userRepository.deleteById(user.getId());
+
     }
 
     @Test
@@ -39,12 +41,13 @@ class UserRepositoryTest {
         User user = new User ("testLogin",
                 "testFirstName",
                 "testLastName",
-                "testEmail",
+                "testEmail@ya.ru",
                 "testPassword",
                 "100000");
         userRepository.save(user);
-        boolean isExist = userRepository.existsByEmail("testEmail");
+        boolean isExist = userRepository.existsByEmail("testEmail@ya.ru");
         assertEquals(true, isExist);
+        userRepository.deleteById(user.getId());
 
     }
 
@@ -53,11 +56,12 @@ class UserRepositoryTest {
         User user = new User ("testLogin",
                 "testFirstName",
                 "testLastName",
-                "testEmail",
+                "testEmail@ya.ru",
                 "testPassword",
                 "100000");
         userRepository.save(user);
         boolean isExist = userRepository.existsByUsername("testLogin");
         assertEquals(true, isExist);
+        userRepository.deleteById(user.getId());
     }
 }
