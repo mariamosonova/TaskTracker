@@ -32,6 +32,7 @@ class CommentRepositoryTest {
         List<?> queryResult = commentRepository.findByTaskId("12");
         assertFalse(queryResult.isEmpty());
         assertNotNull(queryResult.get(0));
+        commentRepository.deleteAll();
 
     }
 }

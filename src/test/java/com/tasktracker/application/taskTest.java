@@ -25,7 +25,8 @@ class TaskTest {
                 "2020-12-10",
                 "testUser",
                 "5",
-                false);
+                false,
+                "testStatus");
         comment = new Comment("1",
                 "12",
                 "test comment",
