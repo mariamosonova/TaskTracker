@@ -53,7 +53,6 @@ public class UserController {
     UserService userService;
 
     @GetMapping(path = UserLinks.LIST_USERS)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<?> listUsers() {
         log.info("UsersController:  list users");
         List<User> resource = userService.getUsers();
@@ -61,7 +60,7 @@ public class UserController {
     }
 
     @RequestMapping(value = UserLinks.UPDATE_USER, method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MODERATOR')")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         log.info("UsersController:  update user");
         User resource = userService.updateUser(user);
@@ -71,14 +70,26 @@ public class UserController {
     @RequestMapping(value = UserLinks.DELETE_USER, method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(@RequestBody User user) {
-        log.info("UsersController:  update user");
+        log.info("UsersController:  delete user");
         userService.deleteUser(user);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_MODERATOR')")
     @GetMapping("/users/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id) {
 
         User user = userService.getUser(id);
+
+        if (user == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getUserById(@PathVariable("username") String username) {
+
+        User user = userService.getUserByUsername(username);
 
         if (user == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
