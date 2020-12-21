@@ -7,6 +7,7 @@ import com.tasktracker.application.models.User;
 import com.tasktracker.application.repository.TaskRepository;
 import com.tasktracker.application.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class BonusService {
 
 

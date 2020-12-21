@@ -77,7 +77,7 @@ public class BonusController {
     public ResponseEntity<?> bonusCalculation(
             @PathVariable("month") int month,
             @PathVariable("year") int year,
-            @RequestParam("coef")Float coef
+            @RequestParam("coef") Float coef
     ) throws ParseException {
         YearMonth yearMonth = YearMonth.of(year, month);
         try {
