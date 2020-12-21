@@ -1,0 +1,108 @@
+<div class="user-page" *ngIf="!!user">
+    <h5 class="user-name-header">{{user.firstname}} {{user.lastname}}</h5>
+    <br>
+    <div class="user-info">
+        <label> Username: </label>
+        <span> {{user.username}} </span>
+    </div>
+
+    <div class="user-info">
+        <label> Email: </label>
+        <span> {{user.email}} </span>
+    </div>
+
+    <div class="user-info">
+        <label> Role: </label>
+        <span> {{user.roles[0].name}} </span>
+    </div>
+
+    <div class="user-info">
+        <label> Base salary: </label>
+        <span> {{user.baseSalary}} </span>
+    </div>
+
+    <form>
+        <div class="date-selector">
+            <input [(ngModel)]="salaryDate" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+
+            <button type="button"
+                (click)="getUserSalary()"
+                [disabled]="!salaryDate"
+                class="btn add-user-button">
+                Show salary
+            </button>
+        </div>
+    </form>
+
+    <div class="user-info"
+         *ngIf="!!salary">
+        <label> Salary: </label>
+        <span> {{salary.salaryAmount}} </span>
+    </div>
+
+    <form>
+        <div class="date-selector">
+            <input [(ngModel)]="modelDate" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+
+            <button type="button"
+                [disabled]="!modelDate"
+                (click)="checkUserBonus()"
+                class="btn add-user-button">
+                Show user bonuses
+            </button>
+        </div>
+    </form>
+
+    <div *ngFor="let bonus of bonuses">
+        "{{bonus.comment}}" - {{bonus.amount}} rub
+    </div>
+
+    <button type="button"
+            (click)="openBounsPopover(template)"
+            class="btn add-bonus-button">
+        Add Bonus
+    </button>
+</div>
+
+<ng-template #template>
+   <div class="modal-header">
+        <h4 class="modal-title pull-left">Add bonus</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeBonusPopover()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form name="form"
+              (ngSubmit)="f.form.valid && onSubmit()"
+              #f="ngForm"
+              novalidate>    
+            <div class="add-bonus">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea class="form-control user-bonus-text" 
+                              id="exampleFormControlTextarea1"
+                              name="comment"
+                              [(ngModel)]="form.comment"
+                              rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Bonus</label>
+                    <input type="number"
+                           class="form-control"
+                           name="bonus"
+                           [(ngModel)]="form.bonus"
+                           required
+                           #bonus="ngModel"
+                />
+                <div class="alert-danger" *ngIf="f.submitted && bonus.invalid">
+                    <div *ngIf="bonus.errors.required">Bonus is required</div>
+                </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block"> Add </button>
+            </div>
+        </form>
+    </div>
+
+</ng-template>

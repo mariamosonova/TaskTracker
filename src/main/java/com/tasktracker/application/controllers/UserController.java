@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @Slf4j
 @RestController
 @RequestMapping("/api/")
@@ -76,7 +76,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<?> getTaskById(@PathVariable("id") long id) {
+    public ResponseEntity<?> getUserById(@PathVariable("id") long id) {
 
         User user = userService.getUser(id);
 

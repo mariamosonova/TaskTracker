@@ -3,6 +3,7 @@ import { TaskService } from '../../_services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/_services/user.service';
 import { User } from 'src/app/models/user-roles';
+import { TaskStatuses, TaskStatusesModel } from 'src/app/models/task.model';
 
 @Component({
   selector: 'app-task-details',
@@ -13,6 +14,7 @@ export class TaskDetailsComponent implements OnInit {
   currentTask = null;
   message = '';
   users: User[] = [];
+  taskStatuses = TaskStatuses;
 
   constructor(
     private taskService: TaskService,
@@ -54,7 +56,8 @@ export class TaskDetailsComponent implements OnInit {
       startDate: this.currentTask.startDate,
       assigned: this.currentTask.assigned,
       points: this.currentTask.points,
-      resolved: status
+      resolved: status,
+      status: TaskStatusesModel.Resolved
     };
 
     this.taskService.update(this.currentTask.id, data)
@@ -72,6 +75,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   updateTask(): void {
+    this.currentTask.resolved = this.currentTask.status ===  TaskStatusesModel.Resolved;
     this.taskService.update(this.currentTask.id, this.currentTask)
       .subscribe(
         response => {

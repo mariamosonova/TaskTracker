@@ -39,3 +39,41 @@
 .comment-content {
     margin-top: 8px;
 }
+
+.circle {
+    width: 8px; 
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.circle-grey {
+    background:grey;
+}
+
+.circle-green {
+    background:green;
+}
+
+.circle-blue {
+    background:blue;
+}
+
+.task-list-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.task-list-info-left {
+    display: flex;
+    align-items: center;
+    width: 40%;
+}
+
+.task-list-info span {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

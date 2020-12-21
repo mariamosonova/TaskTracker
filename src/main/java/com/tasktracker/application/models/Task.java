@@ -40,6 +40,8 @@ public class Task {
   @Column(name = "Resolved")
   private boolean resolved;
 
+  @Column(name = "status")
+  private String status;
 
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -59,7 +61,8 @@ public class Task {
     String start_date,
     String assigned,
     String points,
-    boolean resolved
+    boolean resolved,
+    String status
   ) {
     this.taskTitle = taskTitle;
     this.taskDescription = taskDescription;
@@ -68,6 +71,7 @@ public class Task {
     this.assigned = assigned;
     this.points = points;
     this.resolved = resolved;
+    this.status = status;
   }
 
 
@@ -137,6 +141,15 @@ public class Task {
 
   public void setResolved(boolean isResolved) {
     this.resolved = isResolved;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status)
+  {
+    this.status = status;
   }
 
   @Override

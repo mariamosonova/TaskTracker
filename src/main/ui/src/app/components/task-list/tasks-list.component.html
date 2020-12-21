@@ -37,7 +37,17 @@
           [class.active]="i == currentIndex"
           (click)="setActiveTask(task, i)"
         >
-          {{ task.taskTitle }}
+          <b>{{ task.taskTitle }}</b>
+          <div class='task-list-info'> 
+            <div class='task-list-info-left'>
+              <div [ngClass]='getStatusColorClass(task.status)' 
+                    class="circle"></div>
+              <span>{{task.status}}</span> 
+            </div>
+            <div >
+              <span> <b>{{task.assigned}}</b></span> 
+            </div>
+        </div>
         </li>
       </ul>
 
@@ -56,6 +66,10 @@
           {{ currentTask.taskDescription }}
         </div>
         <div>
+          <label><strong>Status:</strong></label>
+          {{ currentTask.status }}
+        </div>
+        <div>
           <label><strong>startDate:</strong></label>
           {{ currentTask.startDate | date: 'dd/MM/yyyy'}}
         </div>
@@ -70,11 +84,6 @@
         <div>
           <label><strong>Points:</strong></label>
           {{ currentTask.points }}
-        </div>
-        
-        <div>
-          <label><strong>Status:</strong></label>
-          {{ currentTask.resolved ? "Resolved" : "Pending" }}
         </div>
 
         <a class="badge badge-warning" routerLink="/tasks/{{ currentTask.id }}">
@@ -96,7 +105,7 @@
         <button class="btn btn-outline-secondary"
                 type="button"
                 (click)="addComment()">
-        Add Comment
+          Add Comment
         </button>
 
         <div class="tasks-list"
@@ -123,7 +132,7 @@
   </div>
 
   <div *ngIf="isTaskEditMode">
-    <app-add-task (onTaskAdd)="onTaskCreate()"></app-add-task>
+    <app-add-task (onTaskAdd)="onTaskCreate($event)"></app-add-task>
   </div>
 
 </div>

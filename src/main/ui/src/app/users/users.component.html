@@ -17,7 +17,9 @@
 </ng-template>
 
 <div *ngFor="let user of users">
-  <div class="card">
+  <div class="card"
+       (click)="selectUser(user)"
+  >
     <h4>{{user.firstname}} {{user.lastname}}</h4>
     <div> <b>username:</b> {{user.username}} </div>
     <div> <b>e-mail:</b> {{user.email}}</div>

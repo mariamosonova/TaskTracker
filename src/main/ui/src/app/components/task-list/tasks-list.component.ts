@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskStatuses, TaskStatusesModel } from 'src/app/models/task.model';
 import { TokenStorageService } from 'src/app/_services/token-storage.service';
 import { TaskService } from '../../_services/task.service';
 
@@ -24,6 +25,7 @@ export class TasksListComponent implements OnInit {
   }
   user;
   comments;
+  newTaskTitle;
 
   constructor(private taskService: TaskService,
               private tokenStorageService: TokenStorageService) { }
@@ -42,6 +44,17 @@ export class TasksListComponent implements OnInit {
     this.taskService.getAll()
       .subscribe(
         data => {
+          if (this.newTaskTitle) {
+            this.currentTask = data.find( (value, index) => {
+              if (value.taskTitle === this.newTaskTitle) {
+                this.currentIndex = index;
+                return true;
+              }
+              return false;
+            });
+            console.log(this.currentTask);
+            this.newTaskTitle = '';
+          }
           this.tasks = data;
           console.log(data);
         },
@@ -60,14 +73,14 @@ export class TasksListComponent implements OnInit {
     this.getTask(task.id, index);
   }
 
-  getTask(id, index?): void {
+  getTask(id, index): void {
+    this.currentIndex = index;
     this.taskService.get(id).subscribe( newTask => {
       this.currentTask = newTask;
       this.currentTask.comments = this.currentTask.comments.map( comment => {
         comment.date = new Date(comment.date);
         return comment;
       });
-      this.currentIndex = index ? index : this.currentIndex;
     });
   }
 
@@ -95,7 +108,8 @@ export class TasksListComponent implements OnInit {
         });
   }
 
-  onTaskCreate(): void {
+  onTaskCreate(title): void {
+    this.newTaskTitle = title;
     this.retrieveTasks();
     this.isTaskEditMode = false;
   }
@@ -110,7 +124,17 @@ export class TasksListComponent implements OnInit {
 
     this.taskService.addTaskComment(comment).subscribe(() => {
       this.form.comment = '';
-      this.getTask(this.currentTask.id);
+      this.getTask(this.currentTask.id, this.currentIndex);
     });
+  }
+
+  getStatusColorClass(status): string {
+    if (status === TaskStatusesModel.New) {
+      return 'circle-grey';
+    } else if (status === TaskStatusesModel.In_progress) {
+      return 'circle-blue';
+    } else {
+      return 'circle-green';
+    }
   }
 }

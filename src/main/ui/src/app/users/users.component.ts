@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef  } from '@angular/core';
+import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from '../models/user-roles';
@@ -20,7 +21,8 @@ errorMessage;
 
 constructor(private modalService: BsModalService,
             private userService: UserService,
-            private authService: AuthService) {}
+            private authService: AuthService,
+            private router: Router) {}
 
   ngOnInit(): void {
     this.getUsers();
@@ -73,6 +75,10 @@ constructor(private modalService: BsModalService,
     this.userService.deleteUser(deleteUser).subscribe(() => {
       this.users = this.users.filter( user => user.username !== deleteUser.username);
     });
+  }
+
+  selectUser(user): void {
+    this.router.navigate([`users/${user.id}`]);
   }
 
 }

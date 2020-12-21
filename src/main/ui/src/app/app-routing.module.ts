@@ -10,6 +10,7 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { TasksListComponent } from './components/task-list/tasks-list.component';
 import { TaskDetailsComponent } from './components/task-details/task-details.component';
 import { UsersComponent } from './users/users.component';
+import { UserPageComponent } from './users/user-page/user-page.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'tasks', component: TasksListComponent },
   { path: 'tasks/:id', component: TaskDetailsComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'users/:id', component: UserPageComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

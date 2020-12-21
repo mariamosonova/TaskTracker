@@ -1,6 +1,6 @@
-<div style="width: 400px; margin: auto;">
+<div style="width: 400px; margin: auto; padding-top: 16px; padding-bottom: 24px;">
   <div *ngIf="currentTask" class="edit-form">
-    <h4>Task</h4>
+    <h4 style="margin-bottom: 16px;">Task</h4>
     <form>
       <div class="form-group">
         <label for="taskTitle">Title</label>
@@ -12,6 +12,7 @@
           name="taskTitle"
         />
       </div>
+      
       <div class="form-group">
         <label for="taskDescription">Description</label>
         <input
@@ -22,14 +23,21 @@
           name="taskDescription"
         />
       </div>
+
+      <div class="form-group">
+        <label>Status:</label>
+          <select class="form-control"
+                  id="status"
+                  [(ngModel)]="currentTask.status"
+                  name="status"
+          >
+          <option *ngFor="let status of taskStatuses" [value]="status" [selected]="status == currentTask.status">{{status}}</option>
+        </select>
+      </div>
+
       <div class="form-group">
         <label for="startDate">Start date</label>
-          <input class="form-control" 
-                 id="startDate" #drp="bsDatepicker" 
-                 bsDatepicker 
-                 [(ngModel)]="currentTask.startDate"
-                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
-                 name="startDate">
+        <div>{{currentTask.startDate | date: 'dd/MM/yyyy'}}</div>
       </div>
       <div class="form-group">
         <label for="eta">ETA</label>
@@ -62,20 +70,8 @@
           name="points"
         />
       </div>
-
-      <div class="form-group">
-        <label><strong>Status:</strong></label>
-        {{ currentTask.resolved ? "Resolved" : "Pending" }}
-      </div>
     </form>
 
-    <button
-      class="badge badge-primary mr-2"
-      *ngIf="currentTask.resolved"
-      (click)="updateResolved(false)"
-    >
-      UnResolve
-    </button>
     <button
       *ngIf="!currentTask.resolved"
       class="badge badge-primary mr-2"

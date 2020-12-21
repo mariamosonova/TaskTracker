@@ -16,12 +16,13 @@ export class AddTaskComponent implements OnInit {
     eta: '',
     assigned: '',
     points: '',
-    resolved: false
+    resolved: false,
+    status: 'New'
   };
   submitted = false;
   users: User[];
 
-  @Output() onTaskAdd = new EventEmitter();
+  @Output() onTaskAdd = new EventEmitter<string>();
 
   constructor(private taskService: TaskService,
               private userService: UserService) { }
@@ -37,14 +38,16 @@ export class AddTaskComponent implements OnInit {
       startDate: this.task.startDate,
       eta: this.task.eta,
       assigned: this.task.assigned,
-      points: this.task.points
+      points: this.task.points,
+      status: this.task.status,
+      resolved: false
     };
 
     this.taskService.create(data)
       .subscribe(
         response => {
           console.log(response);
-          this.onTaskAdd.emit();
+          this.onTaskAdd.emit(this.task.taskTitle);
           this.submitted = true;
         },
         error => {
@@ -67,7 +70,8 @@ export class AddTaskComponent implements OnInit {
       eta: '',
       assigned: '',
       points: '',
-      resolved: false
+      resolved: false,
+      status: 'New'
     };
   }
 

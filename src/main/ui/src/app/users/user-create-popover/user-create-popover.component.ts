@@ -38,6 +38,7 @@ export class UserCreatePopoverComponent implements OnInit, OnChanges {
       this.form.lastname = changes.user.currentValue.lastname;
       this.form.password = changes.user.currentValue.password;
       this.form.checkbox = changes.user.currentValue.roles[0].name === 'ROLE_MODERATOR' ? true : false;
+      this.form.baseSalary = changes.user.currentValue.baseSalary;
     }
   }
 
@@ -53,7 +54,8 @@ export class UserCreatePopoverComponent implements OnInit, OnChanges {
         firstname: this.form.firstname,
         lastname: this.form.lastname,
         password: this.form.password,
-        role: this.form.checkbox ? ['mod'] : ['']
+        role: this.form.checkbox ? ['mod'] : [''],
+        baseSalary: this.form.baseSalary.toString()
       };
 
       this.userCreate.emit(user);
@@ -65,9 +67,9 @@ export class UserCreatePopoverComponent implements OnInit, OnChanges {
         firstname: this.form.firstname,
         lastname: this.form.lastname,
         password: this.form.password,
-        roles: this.form.checkbox ? [userRoles.manager] : [userRoles.user]
+        roles: this.form.checkbox ? [userRoles.manager] : [userRoles.user],
+        baseSalary: this.form.baseSalary.toString()
       };
-
       this.userEdite.emit(user);
     }
 

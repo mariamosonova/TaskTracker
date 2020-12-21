@@ -145,7 +145,8 @@ public class TaskController {
           task.getStartDate(),
           task.getAssigned(),
           task.getPoints(),
-          false
+          false,
+          task.getStatus()
         )
       );
       return new ResponseEntity<>(_task, HttpStatus.CREATED);
@@ -170,6 +171,7 @@ public class TaskController {
       _task.setAssigned(task.getAssigned());
       _task.setPoints(task.getPoints());
       _task.setResolved(task.isResolved());
+      _task.setStatus(task.getStatus());
       return new ResponseEntity<>(taskRepository.save(_task), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
