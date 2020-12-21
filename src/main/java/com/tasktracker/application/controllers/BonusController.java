@@ -1,43 +1,20 @@
 package com.tasktracker.application.controllers;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.text.ParseException;
 
-import javax.validation.Valid;
+import java.time.YearMonth;
+import java.util.List;
 import java.util.Optional;
 
+
+import com.tasktracker.application.models.*;
+import com.tasktracker.application.security.services.BonusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.tasktracker.application.models.Bonus;
-import com.tasktracker.application.models.ERole;
-import com.tasktracker.application.models.Role;
-import com.tasktracker.application.models.User;
-import com.tasktracker.application.payload.request.LoginRequest;
-import com.tasktracker.application.payload.request.SignupRequest;
-import com.tasktracker.application.payload.response.JwtResponse;
+import org.springframework.web.bind.annotation.*;
 import com.tasktracker.application.payload.response.MessageResponse;
 import com.tasktracker.application.repository.BonusRepository;
-import com.tasktracker.application.repository.RoleRepository;
-import com.tasktracker.application.repository.UserRepository;
-import com.tasktracker.application.security.jwt.JwtUtils;
-import com.tasktracker.application.security.services.UserDetailsImpl;
 import com.tasktracker.application.links.BonusLinks;
-import com.tasktracker.application.links.UserLinks;
 import org.springframework.http.HttpStatus;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +27,10 @@ public class BonusController {
 
     @Autowired
     BonusRepository bonusRepository;
+
+    @Autowired
+    BonusService bonusService;
+
 
     @PostMapping(path = BonusLinks.ADD_BONUS)
     public ResponseEntity<?> addBonus(@RequestBody Bonus bonus) {
@@ -90,5 +71,19 @@ public class BonusController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(bonusData, HttpStatus.OK);
+    }
+
+    @GetMapping("/bonus-calculation/{month}/{year}")
+    public ResponseEntity<?> bonusCalculation(
+            @PathVariable("month") int month,
+            @PathVariable("year") int year,
+            @RequestParam("coef")Float coef
+    ) throws ParseException {
+        YearMonth yearMonth = YearMonth.of(year, month);
+        try {
+            return new ResponseEntity<>(bonusService.calculateBonus(yearMonth,coef), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
