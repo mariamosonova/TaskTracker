@@ -40,6 +40,12 @@
         <span> {{salary.salaryAmount}} </span>
     </div>
 
+    <div class="user-info"
+        *ngIf="!!salary">
+        <label> Efficiency: </label>
+        <span> {{salary.monthEff}} </span>
+    </div>
+
     <form>
         <div class="date-selector">
             <input [(ngModel)]="modelDate" autocomplete="off" class="form-control" name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">

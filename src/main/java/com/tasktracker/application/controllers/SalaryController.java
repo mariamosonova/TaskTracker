@@ -41,6 +41,7 @@ import com.tasktracker.application.repository.BonusRepository;
 import com.tasktracker.application.repository.TaskRepository;
 import com.tasktracker.application.repository.UserRepository;
 import com.tasktracker.application.security.jwt.JwtUtils;
+import com.tasktracker.application.security.services.StatService;
 import com.tasktracker.application.security.services.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 
@@ -61,13 +62,9 @@ public class SalaryController {
     @Autowired
     TaskRepository taskRepository;
 
-    private Date convToDate(LocalDate dateToConvert) {
-        return java.sql.Date.valueOf(dateToConvert);
-    }
+    @Autowired
+    StatService statService;
 
-    private LocalDate convToLocalDate(Date dateToConvert) {
-        return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
 
     @GetMapping("/salary/{user_id}/{month}/{year}")
     public ResponseEntity<?> getUserSalaryByMonth(@PathVariable("user_id") String user_id,
@@ -76,44 +73,44 @@ public class SalaryController {
         User userData = userRepository.findById(Long.parseLong(user_id)).get();
         List<Task> taskData = taskRepository.findByResolvedAndAssigned(true, userData.getUsername());
 
-        YearMonth yearMonth = YearMonth.of(Integer.parseInt(year), Month.of(Integer.parseInt(month)));
         Float baseSalary = Float.parseFloat(userData.getBaseSalary());
         Float fullSalary = baseSalary;
 
-        LocalDate firstOfMonth = yearMonth.atDay(1);
-        LocalDate last = yearMonth.atEndOfMonth();
+        Float aveEff = 0f;
+
 
         for (Task task : taskData) {
-
             Long points = Long.parseLong(task.getPoints());
 
             // date store like yyyy-MM-dd
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             Date endDate = sdf.parse(StringUtils.substring(task.getEta(), 0, 10));
-            LocalDate endDateMinusPoints = convToLocalDate(endDate).minusDays(points);
 
             Date startDate = sdf.parse(StringUtils.substring(task.getStartDate(), 0, 10));
-            LocalDate startDatePlusPoints = convToLocalDate(startDate).plusDays(points);
 
-            if (convToDate(endDateMinusPoints).after(convToDate(firstOfMonth))
-                    && convToDate(endDateMinusPoints).before(convToDate(last))
-                    || convToDate(startDatePlusPoints).after(convToDate(firstOfMonth))
-                            && convToDate(startDatePlusPoints).before(convToDate(last))) {
+            if (statService.isDatesInRange(month, year, endDate, startDate, points)) {
                 Long estimatedDays = ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant());
                 Float estimationCoef = estimatedDays.floatValue() / points.floatValue();
+
+                aveEff += estimationCoef;
 
                 if (estimationCoef >= 1)
                     fullSalary += 1000 * estimationCoef;
             }
         }
 
+        if(!taskData.isEmpty())
+            aveEff /= taskData.size();
+
+        if(aveEff == 0) aveEff = 1f;
+
         for (Bonus bonus : bonusData) {
             fullSalary += Float.parseFloat(bonus.getAmount());
         }
 
         return new ResponseEntity<>(
-                new Salary(userData.getLastname() + ", " + userData.getFirstname(), fullSalary.toString()),
+                new Salary(userData.getLastname() + ", " + userData.getFirstname(), fullSalary.toString(), aveEff.toString()),
                 HttpStatus.OK);
     }
 }

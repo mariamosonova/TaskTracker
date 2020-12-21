@@ -50,6 +50,7 @@ export class UserPageComponent implements OnInit {
   getUserSalary() {
     this.userService.getSalary(this.user.id, this.salaryDate.getMonth() + 1, this.salaryDate.getFullYear()).subscribe( value => {
       this.salary = value;
+      this.salary.monthEff = Number(this.salary.monthEff).toFixed(2);
     });
   }
 
