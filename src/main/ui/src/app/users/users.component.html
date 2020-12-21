@@ -18,16 +18,17 @@
 
 <div *ngFor="let user of users">
   <div class="card"
-       
+        *ngIf="!isAdmin(user.user)"
   >
-  <div class="navi" (click)="selectUser(user)">
-    <h4>{{user.firstname}} {{user.lastname}}</h4>
-    <div> <b>username:</b> {{user.username}} </div>
-    <div> <b>e-mail:</b> {{user.email}}</div>
-    <div> <b>role:</b> {{getStrRoles(user.roles)}}</div>
+  <div class="navi" (click)="selectUser(user.user)">
+    <h4>{{user.user.firstname}} {{user.user.lastname}}</h4>
+    <div> <b>username:</b> {{user.user.username}} </div>
+    <div> <b>e-mail:</b> {{user.user.email}}</div>
+    <div> <b>role:</b> {{getStrRoles(user.user.roles)}}</div>
+    <div> <b>This month efficiency:</b> {{user.eff.toFixed(2)}}</div>
     </div>
-    <button *ngIf="!isAdmin(user)" type="button" class="btn edit-user-button" (click)="openModal(template, 'edit', user)"> Edit </button>
-    <button *ngIf="!isAdmin(user)" type="button" class="btn delete-user-button" (click)="deleteUser(user)"> Delete </button>
+    <button *ngIf="isAdminRole || isModeratorRole" type="button" class="btn edit-user-button" (click)="openModal(template, 'edit', user.user)"> Edit </button>
+    <button *ngIf="isAdminRole" type="button" class="btn delete-user-button" (click)="deleteUser(user.user)"> Delete </button>
 
   </div>
 </div>

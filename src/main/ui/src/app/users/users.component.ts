@@ -4,6 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from '../models/user-roles';
 import { AuthService } from '../_services/auth.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 import { UserService } from '../_services/user.service';
 
 @Component({
@@ -14,18 +15,27 @@ import { UserService } from '../_services/user.service';
 export class UsersComponent implements OnInit {
 
 modalRef: BsModalRef;
-users: User[] = [];
+users = [];
 popoverMode = 'create';
 selectedUser;
 errorMessage;
+roles: any;
+isAdminRole: any;
+isModeratorRole: any;
 
 constructor(private modalService: BsModalService,
             private userService: UserService,
             private authService: AuthService,
-            private router: Router) {}
+            private router: Router,
+            private tokenStorageService: TokenStorageService) {}
 
   ngOnInit(): void {
     this.getUsers();
+    const user = this.tokenStorageService.getUser();
+    this.roles = user.roles;
+  
+    this.isAdminRole = this.roles.includes('ROLE_ADMIN');
+    this.isModeratorRole = this.roles.includes('ROLE_MODERATOR');
   }
 
   getUsers() {
@@ -58,6 +68,10 @@ constructor(private modalService: BsModalService,
 
   isAdmin(user: any): boolean {
     return user.roles.map(role => role.name).join(', ').indexOf('ROLE_ADMIN') !== -1;
+  }
+
+  isModerator(user: any): boolean {
+    return user.roles.map(role => role.name).join(', ').indexOf('ROLE_MODERATOR') !== -1;
   }
 
   onUserEdite(user: User) {

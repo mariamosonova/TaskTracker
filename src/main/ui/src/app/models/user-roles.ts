@@ -24,4 +24,5 @@ export interface User {
 export interface SalaryModel {
     fullname: string;
     salaryAmount: number;
+    monthEff: any;
 }

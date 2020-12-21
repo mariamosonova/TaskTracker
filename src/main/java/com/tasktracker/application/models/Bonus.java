@@ -97,7 +97,4 @@ public class Bonus {
       this.year = year;
   }
 
-  
-
-
 }
