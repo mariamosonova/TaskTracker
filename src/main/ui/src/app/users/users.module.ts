@@ -10,6 +10,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [UsersComponent, UserCreatePopoverComponent, UserPageComponent],
+  exports: [
+    UserPageComponent
+  ],
   imports: [
     CommonModule,
     ModalModule.forRoot(),

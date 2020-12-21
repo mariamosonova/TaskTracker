@@ -11,7 +11,7 @@
         <span> {{user.email}} </span>
     </div>
 
-    <div class="user-info">
+    <div *ngIf="!isUser" class="user-info">
         <label> Role: </label>
         <span> {{user.roles[0].name}} </span>
     </div>

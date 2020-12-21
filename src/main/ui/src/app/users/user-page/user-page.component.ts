@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SalaryModel, User } from 'src/app/models/user-roles';
@@ -10,6 +10,10 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./user-page.component.css']
 })
 export class UserPageComponent implements OnInit {
+
+
+  @Input() isUser = false;
+  @Input() extUser = null;
 
   user: User;
 
@@ -28,9 +32,13 @@ export class UserPageComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+      if (!this.isUser){
     this.route.params.subscribe(params => {
       this.userService.getUser(params.id).subscribe(user => this.user = user);
     });
+} else{
+    this.user = this.extUser;
+}
   }
 
   checkUserBonus() {
