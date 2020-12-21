@@ -27,6 +27,7 @@ class TaskTest {
                 "5",
                 false,
                 "testStatus");
+
         comment = new Comment("1",
                 "12",
                 "test comment",

@@ -31,6 +31,7 @@ class TaskRepositoryTest {
                 false,
                 "testStatus"
                 );
+
         taskRepository.save(task);
         List<?> queryResult = taskRepository.findByResolved(false);
         assertFalse(queryResult.isEmpty());
@@ -65,6 +66,7 @@ class TaskRepositoryTest {
                 false,
                 "testStatus"
                 );
+
         taskRepository.save(task);
         List<?> queryResult = taskRepository.findByAssigned("testUser");
         assertFalse(queryResult.isEmpty());
