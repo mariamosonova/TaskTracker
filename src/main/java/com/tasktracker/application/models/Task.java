@@ -52,6 +52,14 @@ public class Task {
   )
   private List<Comment> comments = new ArrayList<>();
 
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(
+          name = "task_attribute",
+          joinColumns = @JoinColumn(name = "taskId"),
+          inverseJoinColumns = @JoinColumn(name = "attribute_id")
+  )
+  private List<Comment> attributes = new ArrayList<>();
+
   public Task() {}
 
   public Task(
